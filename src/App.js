@@ -10,7 +10,7 @@ export default function App() {
     <div className="container app">
       <Header />
       <Board />
-      <footer className="row"></footer>
+      <footer ></footer>
     </div>
   );
 }

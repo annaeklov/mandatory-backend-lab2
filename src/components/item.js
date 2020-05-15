@@ -1,19 +1,22 @@
 import React from "react";
 
-export default function Item() {
-  return (
-    <>
-      <div className="card border-dark mb-3">
-        <div className="card-header">Header</div>
+export default function Item({ items }) {
+  const mappedItems = items.map((item) => {
+    return (
+      <div className="card border-dark mb-3" key={item._id}>
+        <div className="card-header">Title: {item.title}</div>
         <div className="card-body text-dark">
-          <h5 className="card-title">Dark card title</h5>
-          <p className="card-text">
-            Some quick example text to build on the card title and make up the
-            bulk of the card's content.
-          </p>
+          <p className="card-text">Description: {item.description}</p>
         </div>
-        <div class="card-footer bg-transparent border-dark">Footer</div>
+        <div className="card-footer bg-transparent border-dark">Date: 
+          {item.date}
+        </div>
+        <div className="card-footer bg-transparent border-dark">
+          Delete item, edit item, move item
+        </div>
       </div>
-    </>
-  );
+    );
+  });
+
+  return <>{mappedItems}</>;
 }

@@ -10,14 +10,25 @@ const MONGO_DB = require("./db");
 /*-----------*/
 // Anropen
 
-/* app.get("", async (req, res) => {
-  const data = await MONGO_DB.functionName();
-  if ("something, something") {
+app.get("/lists", async (req, res) => {
+  const data = await MONGO_DB.getAllLists();
+  if (data.length) {
     res.status(200).send(data);
   } else {
     res.status(400).end();
   }
-}); */
+});
+
+app.get("/items/:listId", async (req, res) => {
+  let listId = req.params.listId;
+  console.log("listId", listId)
+  const data = await MONGO_DB.getAllItems(listId);
+  if (data.length) {
+    res.status(200).send(data);
+  } else {
+    res.status(400).end();
+  }
+});
 
 app.listen(8080, () => {
   console.log("Server started 8080");

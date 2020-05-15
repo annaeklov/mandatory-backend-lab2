@@ -19,17 +19,29 @@ let db = client.db(dbName);
 /*-----------*/
 // Funktioner
 
-/* async function functionName() {
+async function getAllLists() {
   try {
-    const result = await db.collection("collectionNameHere");
+    const result = await db.collection("listsCollection").find().toArray();
     return result;
   } catch {
     throw error;
   }
-} */
+}
+
+async function getAllItems(listId) {
+  try {
+    const result = await db
+      .collection("itemsCollection")
+      .find({ listId: ObjectId(listId) })
+      .toArray();
+    return result;
+  } catch {
+    throw error;
+  }
+}
 
 /*-----------*/
 // Exporterar funktionen till server.js
 
-/* module.exports.functionName = functionName;
- */
+module.exports.getAllLists = getAllLists;
+module.exports.getAllItems = getAllItems;
