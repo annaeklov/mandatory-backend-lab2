@@ -40,8 +40,37 @@ async function getAllItems(listId) {
   }
 }
 
+async function createNewList(newList) {
+  try {
+    const result = await db.collection("listsCollection").insert(newList);
+    return "Success in creating a new list";
+  } catch (error) {
+    console.log("Error in creating a new list", error);
+    throw error;
+  }
+}
+
+async function deleteList(listId) {
+  try {
+    const result = await db
+      .collection("listsCollection")
+      .deleteOne({ _id: ObjectId(listId) });
+    if (result.length) {
+      return "Success in deleting a room";
+    }
+    return "Could not find room";
+  } catch (error) {
+    console.log("Error in deleting a room", error);
+    throw error;
+  }
+}
+
 /*-----------*/
 // Exporterar funktionen till server.js
 
 module.exports.getAllLists = getAllLists;
 module.exports.getAllItems = getAllItems;
+module.exports.createNewList = createNewList;
+module.exports.deleteList = deleteList;
+
+
