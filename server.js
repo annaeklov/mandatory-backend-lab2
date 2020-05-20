@@ -40,6 +40,25 @@ app.post("/lists", async (req, res) => {
   res.status(201).send({ status: data }); // data är returnen i funktionen i db.js
 });
 
+app.post("/items/:listId", async (req, res) => {
+  let listId = req.params.listId;
+  let date = new Date().toDateString();
+
+  if (!req.body.title.length && !req.body.description.length ) {
+    return res.status(400).end();
+  }
+
+  let newItem = {
+    title: req.body.title,
+    description: req.body.description,
+    date: date,
+    listId: listId,
+  };
+  console.log("newItem in server", newItem);
+  const data = await MONGO_DB.createNewItem(newItem);
+  res.status(200).send("Sucess");
+});
+
 app.delete("/lists/:id", async (req, res) => {
   let listId = req.params.id;
   const data = await MONGO_DB.deleteList(listId);

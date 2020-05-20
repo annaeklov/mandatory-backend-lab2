@@ -2,12 +2,15 @@ import React from "react";
 
 export default function Modal({
   showModalFunction,
+  showModal,
   onClickSaveFunction,
   modalTitle,
   description,
   onChangeDescription,
   onChangeTitle,
   title,
+  showDescription,
+  showDeleteModal,
 }) {
   return (
     <div
@@ -28,35 +31,40 @@ export default function Modal({
           </div>
 
           <div className="modal-body">
-            <form>
-              <label name="title">Title:</label>
-              <input
-                type="text"
-                name="title"
-                required
-                autoFocus
-                minLength="1"
-                maxLength="20"
-                onChange={onChangeTitle}
-                value={title}
-              />
+            {showDeleteModal && (
+              <p>Are you sure? Click save changes to delete list.</p>
+            )}
+            {showModal && (
+              <form>
+                <label name="title">Title:</label>
+                <input
+                  type="text"
+                  name="title"
+                  required
+                  autoFocus
+                  minLength="1"
+                  maxLength="20"
+                  onChange={onChangeTitle}
+                  value={title}
+                />
 
-              {description && (
-                <>
-                  <br />
-                  <label name="description">Description:</label>
-                  <input
-                    type="text"
-                    name="description"
-                    required
-                    minLength="1"
-                    maxLength="20"
-                    onChange={onChangeDescription}
-                    value={description}
-                  />
-                </>
-              )}
-            </form>
+                {showDescription && (
+                  <>
+                    <br />
+                    <label name="description">Description:</label>
+                    <input
+                      type="text"
+                      name="description"
+                      required
+                      minLength="1"
+                      maxLength="20"
+                      onChange={onChangeDescription}
+                      value={description}
+                    />
+                  </>
+                )}
+              </form>
+            )}
           </div>
           <div className="modal-footer">
             <button
@@ -67,7 +75,11 @@ export default function Modal({
             >
               Close
             </button>
-            <button type="button" className="btn btn-primary" onClick={onClickSaveFunction}>
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={onClickSaveFunction}
+            >
               Save changes
             </button>
           </div>
@@ -76,5 +88,3 @@ export default function Modal({
     </div>
   );
 }
-
-

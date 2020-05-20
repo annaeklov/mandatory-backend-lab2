@@ -7,8 +7,10 @@ import Modal from "./modal.js";
 export default function List({ list, updateLists }) {
   const [items, setItems] = useState([]);
   const [showModal, setShowModal] = useState(false);
-  const [description, setDescription] = useState(" ");
-  const [title, setTitle] = useState(" ");
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showDescription, setShowDescription] = useState(false);
+  const [description, setDescription] = useState("");
+  const [title, setTitle] = useState("");
 
   useEffect(() => {
     updateItems();
@@ -29,7 +31,13 @@ export default function List({ list, updateLists }) {
 
   function showModalFunction(statement) {
     setShowModal(statement);
+    setShowDescription(true);
   }
+
+  function showDeleteModalFunction(statement) {
+    setShowDeleteModal(statement);
+  }
+
   function onChangeDescription(e) {
     setDescription(e.target.value);
   }
@@ -37,7 +45,7 @@ export default function List({ list, updateLists }) {
     setTitle(e.target.value);
   }
 
-  function deleteList(list) {
+  function deleteList() {
     axios
       .delete("/lists/" + list._id)
       .then((res) => {
@@ -46,6 +54,34 @@ export default function List({ list, updateLists }) {
       .catch((err) => {
         console.log("Error from frontend-delete", err);
       });
+    setShowDeleteModal(false);
+  }
+
+  function addNewItem(e) {
+    e.preventDefault();
+
+    if (title.trim().length === 0 && description.trim().length === 0) {
+      setTitle("");
+      setDescription("");
+      return;
+    }
+
+    axios
+      .post("/items/" + list._id, {
+        title: title,
+        description: description,
+        listId: list._id,
+      })
+      .then((res) => {
+        console.log("post new item", res.data);
+        updateItems();
+        setTitle("");
+        setDescription("");
+      })
+      .catch((err) => {
+        console.log("Error from frontend-post", err);
+      });
+    showModalFunction(false);
   }
 
   return (
@@ -53,20 +89,31 @@ export default function List({ list, updateLists }) {
       <div className="list__oneDiv">
         {showModal && (
           <Modal
+            showModal={showModal}
+            onClickSaveFunction={addNewItem}
             showModalFunction={showModalFunction}
             modalTitle={"Add item"}
             description={description}
             onChangeDescription={onChangeDescription}
             onChangeTitle={onChangeTitle}
             title={title}
+            showDescription={showDescription}
           />
         )}
-        <h4>{list.name}</h4>
+        {showDeleteModal && (
+          <Modal
+            showModalFunction={showDeleteModalFunction}
+            onClickSaveFunction={deleteList}
+            modalTitle={"Delete list"}
+            showDeleteModal={showDeleteModal}
+          />
+        )}
+        <h2>{list.name}</h2>
         <button
           type="button"
           className="btn btn-light"
           onClick={() => {
-            deleteList(list);
+            showDeleteModalFunction(true);
           }}
         >
           Delete {list.name}-list

@@ -48,12 +48,13 @@ export default function Board() {
       showModalFunction(false)
   }
 
-  //axios POST. res,updateList, sen close genom att skicka in showModalFunction(false)
+
 
   return (
     <main>
       {showModal && (
         <Modal
+        showModal={showModal}
           onClickSaveFunction={addNewList}
           showModalFunction={showModalFunction}
           modalTitle={"Add list"}

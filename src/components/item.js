@@ -12,12 +12,10 @@ export default function Item({ items }) {
         <div className="card-body text-dark">
           <p className="card-text">Description: {item.description}</p>
         </div>
+        
         <div className="card-footer bg-transparent border-dark">
-          Date:
-          {item.date}
-        </div>
-        <div className="card-footer bg-transparent border-dark">
-          Delete item, edit item, move item
+        <p>Date: {item.date}</p>
+          <p>Delete item, edit item, move item</p>
         </div>
       </div>
     );

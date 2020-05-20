@@ -50,6 +50,16 @@ async function createNewList(newList) {
   }
 }
 
+async function createNewItem(newItem) {
+  newItem.listId = ObjectId(newItem.listId)
+  try {
+    const result = await db.collection("itemsCollection").insertOne(newItem);
+    return "Success in creating a new item";
+  } catch {
+    throw error;
+  }
+}
+
 async function deleteList(listId) {
   try {
     const result = await db
@@ -71,6 +81,5 @@ async function deleteList(listId) {
 module.exports.getAllLists = getAllLists;
 module.exports.getAllItems = getAllItems;
 module.exports.createNewList = createNewList;
+module.exports.createNewItem = createNewItem;
 module.exports.deleteList = deleteList;
-
-
