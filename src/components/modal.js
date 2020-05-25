@@ -31,8 +31,8 @@ export default function Modal({
           </div>
 
           <div className="modal-body">
-            {showDeleteModal && (
-              <p>Are you sure? Click save changes to delete list.</p>
+            {showDeleteModal  && (
+              <p>Are you sure you want to delete it? Click save changes to <strong>delete</strong>.</p>
             )}
             {showModal && (
               <form>

@@ -2,7 +2,7 @@
   height: 100vh;
 }
 
-main{
+main {
   border: 1px solid black;
   border-radius: 4px;
   width: 100%;
@@ -14,32 +14,38 @@ main{
   overflow-y: hidden;
 }
 
-.board__listDivs{
+.board__listDivs {
   display: flex;
   height: 100%;
   width: 100%;
   overflow-y: auto;
 }
 
-.list__oneDiv{
+.list__oneDiv {
   margin: 10px;
   padding: 3px;
   min-width: 20%;
-  text-align:center;
+  text-align: center;
 }
 
-h2{
-  text-align:center;
+h2 {
+  text-align: center;
 }
-.card-footer{
+
+.card-footer {
   padding: 0.5rem;
 }
 
 .card-footer p {
-margin:0;
+  margin: 0;
 }
 
-footer{
+.item-btn {
+  border: 1px dashed black;
+  margin: 2px;
+}
+
+footer {
   width: 100%;
   height: 10%;
   background-color: rgba(211, 211, 211, 0.077);

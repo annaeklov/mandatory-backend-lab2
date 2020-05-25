@@ -51,7 +51,7 @@ async function createNewList(newList) {
 }
 
 async function createNewItem(newItem) {
-  newItem.listId = ObjectId(newItem.listId)
+  newItem.listId = ObjectId(newItem.listId);
   try {
     const result = await db.collection("itemsCollection").insertOne(newItem);
     return "Success in creating a new item";
@@ -65,12 +65,45 @@ async function deleteList(listId) {
     const result = await db
       .collection("listsCollection")
       .deleteOne({ _id: ObjectId(listId) });
-    if (result.length) {
-      return "Success in deleting a room";
+      
+    if (result.deletedCount === 1) {
+      return { success: true, statusCode : 204};
     }
-    return "Could not find room";
+    return "Could not find list";
   } catch (error) {
-    console.log("Error in deleting a room", error);
+    console.log("Error in deleting a list", error);
+    throw error;
+  }
+}
+
+async function deleteItemsInList(listId) {
+  try {
+    const result = await db
+      .collection("itemsCollection")
+      .deleteMany({ listId: ObjectId(listId) });
+      
+    if (result) {
+      return { success: true, statusCode : 204};
+    }
+    return "Could not find items";
+  } catch (error) {
+    console.log("Error in deleting items", error);
+    throw error;
+  }
+}
+
+async function deleteItem(itemId) {
+  try {
+    const result = await db
+      .collection("itemsCollection")
+      .deleteOne({ _id: ObjectId(itemId) });
+      
+    if (result.deletedCount === 1) {
+      return { success: true, statusCode : 204};
+    }
+    return "Could not find item";
+  } catch (error) {
+    console.log("Error in deleting an item", error);
     throw error;
   }
 }
@@ -83,3 +116,7 @@ module.exports.getAllItems = getAllItems;
 module.exports.createNewList = createNewList;
 module.exports.createNewItem = createNewItem;
 module.exports.deleteList = deleteList;
+module.exports.deleteItemsInList = deleteItemsInList;
+module.exports.deleteItem = deleteItem;
+
+

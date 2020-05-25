@@ -44,7 +44,7 @@ app.post("/items/:listId", async (req, res) => {
   let listId = req.params.listId;
   let date = new Date().toDateString();
 
-  if (!req.body.title.length && !req.body.description.length ) {
+  if (!req.body.title.length && !req.body.description.length) {
     return res.status(400).end();
   }
 
@@ -62,6 +62,22 @@ app.post("/items/:listId", async (req, res) => {
 app.delete("/lists/:id", async (req, res) => {
   let listId = req.params.id;
   const data = await MONGO_DB.deleteList(listId);
+  if (!data.success) {
+    return res.status(404).end();
+  }
+
+  if (data.success) {
+    const data = await MONGO_DB.deleteItemsInList(listId);
+  }
+  res.status(204).send({ status: data });
+});
+
+app.delete("/items/:id", async (req, res) => {
+  let itemId = req.params.id;
+  const data = await MONGO_DB.deleteItem(itemId);
+  if (!data.success) {
+    return res.status(404).end();
+  }
   res.status(204).send({ status: data });
 });
 

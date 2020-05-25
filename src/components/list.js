@@ -120,7 +120,7 @@ export default function List({ list, updateLists }) {
         </button>
         {!items.length && <p>No items in this list..</p>}
 
-        <Item items={items} />
+        <Item items={items} updateLists={updateLists}/>
         <button
           type="button"
           className="btn btn-light"
