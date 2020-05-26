@@ -11,7 +11,7 @@ const MONGO_DB = require("./db");
 
 app.get("/lists", async (req, res) => {
   const data = await MONGO_DB.getAllLists();
-  if (data.length) {
+  if (data) {
     res.status(200).send(data);
   } else {
     res.status(400).end();
@@ -22,7 +22,7 @@ app.get("/items/:listId", async (req, res) => {
   let listId = req.params.listId;
   console.log("listId", listId);
   const data = await MONGO_DB.getAllItems(listId);
-  if (data.length) {
+  if (data) {
     res.status(200).send(data);
   } else {
     res.status(400).end();
@@ -54,7 +54,6 @@ app.post("/items/:listId", async (req, res) => {
     date: date,
     listId: listId,
   };
-  console.log("newItem in server", newItem);
   const data = await MONGO_DB.createNewItem(newItem);
   res.status(200).send("Sucess");
 });
@@ -65,7 +64,6 @@ app.delete("/lists/:id", async (req, res) => {
   if (!data.success) {
     return res.status(404).end();
   }
-
   if (data.success) {
     const data = await MONGO_DB.deleteItemsInList(listId);
   }
@@ -79,6 +77,20 @@ app.delete("/items/:id", async (req, res) => {
     return res.status(404).end();
   }
   res.status(204).send({ status: data });
+});
+
+app.put("/items/:id", async (req, res) => {
+  let itemId = req.params.id;
+  let editItem = {
+    title: req.body.title,
+    description: req.body.description,
+  };
+
+  const data = await MONGO_DB.editItem(itemId, editItem);
+  if (!data.success) {
+    return res.status(400).end();
+  }
+  res.status(204).send( editItem);
 });
 
 app.listen(8080, () => {

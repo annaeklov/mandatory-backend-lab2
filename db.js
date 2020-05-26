@@ -42,7 +42,7 @@ async function getAllItems(listId) {
 
 async function createNewList(newList) {
   try {
-    const result = await db.collection("listsCollection").insert(newList);
+    const result = await db.collection("listsCollection").insertOne(newList);
     return "Success in creating a new list";
   } catch (error) {
     console.log("Error in creating a new list", error);
@@ -54,7 +54,8 @@ async function createNewItem(newItem) {
   newItem.listId = ObjectId(newItem.listId);
   try {
     const result = await db.collection("itemsCollection").insertOne(newItem);
-    return "Success in creating a new item";
+           return { success: true, statusCode: 201 };
+;
   } catch {
     throw error;
   }
@@ -65,9 +66,9 @@ async function deleteList(listId) {
     const result = await db
       .collection("listsCollection")
       .deleteOne({ _id: ObjectId(listId) });
-      
+
     if (result.deletedCount === 1) {
-      return { success: true, statusCode : 204};
+      return { success: true, statusCode: 204 };
     }
     return "Could not find list";
   } catch (error) {
@@ -81,9 +82,9 @@ async function deleteItemsInList(listId) {
     const result = await db
       .collection("itemsCollection")
       .deleteMany({ listId: ObjectId(listId) });
-      
+
     if (result) {
-      return { success: true, statusCode : 204};
+      return { success: true, statusCode: 204 };
     }
     return "Could not find items";
   } catch (error) {
@@ -97,13 +98,35 @@ async function deleteItem(itemId) {
     const result = await db
       .collection("itemsCollection")
       .deleteOne({ _id: ObjectId(itemId) });
-      
+
     if (result.deletedCount === 1) {
-      return { success: true, statusCode : 204};
+      return { success: true, statusCode: 204 };
     }
     return "Could not find item";
   } catch (error) {
     console.log("Error in deleting an item", error);
+    throw error;
+  }
+}
+
+async function editItem(itemId, editItem) {
+  try {
+    const result = await db.collection("itemsCollection").updateOne(
+      { _id: ObjectId(itemId) },
+      {
+        $set: {
+          title: editItem.title,
+          description: editItem.description,
+        },
+      }
+    );
+    console.log(result)
+    if (result.modifiedCount === 1) {
+      return { success: true, statusCode: 200 };
+    }
+    return "Could not find item";
+  } catch (error) {
+    console.log("Error in editing an item", error);
     throw error;
   }
 }
@@ -118,5 +141,4 @@ module.exports.createNewItem = createNewItem;
 module.exports.deleteList = deleteList;
 module.exports.deleteItemsInList = deleteItemsInList;
 module.exports.deleteItem = deleteItem;
-
-
+module.exports.editItem = editItem;

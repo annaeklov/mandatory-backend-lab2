@@ -17,11 +17,11 @@ export default function Board() {
     axios
       .get("/lists")
       .then((res) => {
-        console.log("RES.DATA GET/lists", res.data);
+        console.log("UPDATE LISTS ->", res.data);
         setLists(res.data);
       })
-      .catch((e) => {
-        console.log("Error from frontend", e);
+      .catch((err) => {
+        console.log(err);
       });
   }
 
@@ -37,7 +37,7 @@ export default function Board() {
     e.preventDefault();
 
     axios
-      .post("/lists", { data: title }) 
+      .post("/lists", { data: title })
       .then((res) => {
         updateLists();
         setTitle("");
@@ -45,16 +45,14 @@ export default function Board() {
       .catch((err) => {
         console.log("Error from frontend-post", err);
       });
-      showModalFunction(false)
+    showModalFunction(false);
   }
-
-
 
   return (
     <main>
       {showModal && (
         <Modal
-        showModal={showModal}
+          showModal={showModal}
           onClickSaveFunction={addNewList}
           showModalFunction={showModalFunction}
           modalTitle={"Add list"}
@@ -75,7 +73,11 @@ export default function Board() {
         </button>
       </div>
       <div className="board__listDivs">
-        <Lists lists={lists} updateLists={updateLists}/>
+        {!lists.length ? (
+          <p>No lists..</p>
+        ) : (
+          <Lists lists={lists} updateLists={updateLists} />
+        )}
       </div>
     </main>
   );

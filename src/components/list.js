@@ -21,11 +21,11 @@ export default function List({ list, updateLists }) {
     axios
       .get("/items/" + list._id)
       .then((res) => {
-        console.log("RES.DATA GET/items", res.data);
+        console.log("UPDATE ITEMS ->", res.data);
         setItems(res.data);
       })
-      .catch((e) => {
-        console.log("Error from frontend", e);
+      .catch((err) => {
+        console.log(err);
       });
   }
 
@@ -49,10 +49,11 @@ export default function List({ list, updateLists }) {
     axios
       .delete("/lists/" + list._id)
       .then((res) => {
+        console.log("DELETE LIST, ", res)
         updateLists();
       })
       .catch((err) => {
-        console.log("Error from frontend-delete", err);
+        console.log( err);
       });
     setShowDeleteModal(false);
   }
