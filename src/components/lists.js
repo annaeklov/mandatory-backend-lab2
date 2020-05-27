@@ -6,7 +6,7 @@ export default function Lists({ lists, updateLists }) {
   
   const mappedLists = lists.map((list) => {
     return (
-     <List list={list} key={list._id} updateLists={updateLists}/>
+     <List list={list} key={list._id} updateLists={updateLists} lists={lists}/>
      
     );
   });

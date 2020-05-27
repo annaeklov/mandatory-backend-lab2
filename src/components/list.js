@@ -4,7 +4,7 @@ import axios from "axios";
 import Item from "./item.js";
 import Modal from "./modal.js";
 
-export default function List({ list, updateLists }) {
+export default function List({ lists, list, updateLists }) {
   const [items, setItems] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -49,11 +49,11 @@ export default function List({ list, updateLists }) {
     axios
       .delete("/lists/" + list._id)
       .then((res) => {
-        console.log("DELETE LIST, ", res)
+        console.log("DELETE LIST, ", res);
         updateLists();
       })
       .catch((err) => {
-        console.log( err);
+        console.log(err);
       });
     setShowDeleteModal(false);
   }
@@ -121,7 +121,7 @@ export default function List({ list, updateLists }) {
         </button>
         {!items.length && <p>No items in this list..</p>}
 
-        <Item items={items} updateLists={updateLists}/>
+        <Item items={items} updateLists={updateLists} listId={list._id} listName={list.name} lists={lists}/>
         <button
           type="button"
           className="btn btn-light"

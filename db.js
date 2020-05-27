@@ -54,8 +54,7 @@ async function createNewItem(newItem) {
   newItem.listId = ObjectId(newItem.listId);
   try {
     const result = await db.collection("itemsCollection").insertOne(newItem);
-           return { success: true, statusCode: 201 };
-;
+    return { success: true, statusCode: 201 };
   } catch {
     throw error;
   }
@@ -120,13 +119,33 @@ async function editItem(itemId, editItem) {
         },
       }
     );
-    console.log(result)
     if (result.modifiedCount === 1) {
       return { success: true, statusCode: 200 };
     }
     return "Could not find item";
   } catch (error) {
     console.log("Error in editing an item", error);
+    throw error;
+  }
+}
+
+async function moveItem(itemId, newListId) {
+  console.log("NEWLISTID I DB->", newListId);
+  try {
+    const result = await db.collection("itemsCollection").updateOne(
+      { _id: ObjectId(itemId) },
+      {
+        $set: {
+          listId: ObjectId(newListId.listId),
+        },
+      }
+    );
+    if (result) {
+      return { success: true, statusCode: 200 };
+    }
+    return "Could not find item";
+  } catch (error) {
+    console.log("Error in moving an item", error);
     throw error;
   }
 }
@@ -142,3 +161,4 @@ module.exports.deleteList = deleteList;
 module.exports.deleteItemsInList = deleteItemsInList;
 module.exports.deleteItem = deleteItem;
 module.exports.editItem = editItem;
+module.exports.moveItem = moveItem;

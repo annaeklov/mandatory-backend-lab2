@@ -20,7 +20,6 @@ app.get("/lists", async (req, res) => {
 
 app.get("/items/:listId", async (req, res) => {
   let listId = req.params.listId;
-  console.log("listId", listId);
   const data = await MONGO_DB.getAllItems(listId);
   if (data) {
     res.status(200).send(data);
@@ -90,7 +89,17 @@ app.put("/items/:id", async (req, res) => {
   if (!data.success) {
     return res.status(400).end();
   }
-  res.status(204).send( editItem);
+  res.status(204).send(editItem);
+});
+
+app.put("/moveitems/:id", async (req, res) => {
+  let itemId = req.params.id;
+  let newListId = req.body;
+  const data = await MONGO_DB.moveItem(itemId, newListId);
+  if (!data.success) {
+    return res.status(400).end();
+  }
+  res.status(204).send({ status: "Sucess" });
 });
 
 app.listen(8080, () => {

@@ -2,13 +2,14 @@ import React, { useState } from "react";
 import Modal from "./modal.js";
 import axios from "axios";
 
-export default function Item({ items, updateLists }) {
+export default function Item({ items, lists, updateLists, listId, listName }) {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showModalMove, setShowModalMove] = useState(false);
   const [showModalEdit, setShowModalEdit] = useState(false);
   const [itemId, setItemId] = useState("");
   const [itemTitle, setItemTitle] = useState("");
   const [itemDescription, setItemDescription] = useState("");
+  const [newListId, setNewListId] = useState("");
 
   function showDeleteModalFunction(statement) {
     setShowDeleteModal(statement);
@@ -16,6 +17,10 @@ export default function Item({ items, updateLists }) {
 
   function showModalEditFunction(statement) {
     setShowModalEdit(statement);
+  }
+
+  function showModalMoveFunction(statement) {
+    setShowModalMove(statement);
   }
 
   function deleteItem(itemId) {
@@ -46,6 +51,27 @@ export default function Item({ items, updateLists }) {
         console.log("Error from frontend-put", err);
       });
     setShowModalEdit(false);
+  }
+
+  function moveItem(itemId) {
+    console.log("LISTID i MOVEITEM->", listId);
+    console.log("NEWLISTID i MOVEITEM->",newListId);
+
+    axios
+      .put("/moveitems/" + itemId, { listId: newListId })
+      .then((res) => {
+        updateLists();
+        setItemId("");
+      })
+      .catch((err) => {
+        console.log("Error from frontend-move", err);
+      });
+    setShowModalMove(false);
+  }
+
+  function onChangeMoveItem(e) {
+    console.log(e.target.value);
+    setNewListId(e.target.value);
   }
 
   function onChangeDescription(e) {
@@ -88,10 +114,17 @@ export default function Item({ items, updateLists }) {
           >
             Edit item
           </button>
-          <button type="button" className="btn btn-light item-btn">
+          <button
+            type="button"
+            className="btn btn-light item-btn"
+            onClick={() => {
+              setShowModalMove(true);
+              setItemId(item._id);
+            }}
+          >
             Move item
           </button>
-          <p>Date: {item.date}</p>
+          <p>Created: {item.date}</p>
         </div>
       </div>
     );
@@ -121,6 +154,19 @@ export default function Item({ items, updateLists }) {
           onChangeTitle={onChangeTitle}
           onClickSaveFunction={() => {
             editItem(itemId);
+          }}
+        />
+      )}
+      {showModalMove && (
+        <Modal
+          showModalMove={showModalMove}
+          modalTitle={"Move item"}
+          lists={lists}
+          listName={listName}
+          showModalFunction={showModalMoveFunction}
+          onChangeMoveItem={onChangeMoveItem}
+          onClickSaveFunction={() => {
+            moveItem(itemId);
           }}
         />
       )}

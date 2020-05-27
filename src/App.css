@@ -50,3 +50,14 @@ footer {
   height: 10%;
   background-color: rgba(211, 211, 211, 0.077);
 }
+
+.overlay{
+  position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: grey;
+    opacity: 0.6;
+    z-index: 1;
+}

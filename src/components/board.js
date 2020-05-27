@@ -4,7 +4,7 @@ import axios from "axios";
 import Lists from "./lists.js";
 import Modal from "./modal.js";
 
-export default function Board() {
+export default function Board({ overlay }) {
   const [lists, setLists] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [title, setTitle] = useState("");
@@ -27,6 +27,7 @@ export default function Board() {
 
   function showModalFunction(statement) {
     setShowModal(statement);
+    
   }
 
   function onChangeTitle(e) {
