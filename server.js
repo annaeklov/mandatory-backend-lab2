@@ -14,7 +14,7 @@ app.get("/lists", async (req, res) => {
   if (data) {
     res.status(200).send(data);
   } else {
-    res.status(400).end();
+    res.status(500).end();
   }
 });
 
@@ -24,7 +24,7 @@ app.get("/items/:listId", async (req, res) => {
   if (data) {
     res.status(200).send(data);
   } else {
-    res.status(400).end();
+    res.status(500).end();
   }
 });
 
@@ -78,12 +78,14 @@ app.delete("/items/:id", async (req, res) => {
   res.status(204).send({ status: data });
 });
 
-app.put("/items/:id", async (req, res) => {
+app.put("/edititems/:id", async (req, res) => {
   let itemId = req.params.id;
   let editItem = {
     title: req.body.title,
     description: req.body.description,
   };
+
+  if (!editItem) return res.status(400).end();
 
   const data = await MONGO_DB.editItem(itemId, editItem);
   if (!data.success) {
@@ -95,6 +97,8 @@ app.put("/items/:id", async (req, res) => {
 app.put("/moveitems/:id", async (req, res) => {
   let itemId = req.params.id;
   let newListId = req.body;
+  if (!newListId) return res.status(400).end();
+
   const data = await MONGO_DB.moveItem(itemId, newListId);
   if (!data.success) {
     return res.status(400).end();

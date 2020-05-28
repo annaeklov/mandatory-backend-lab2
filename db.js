@@ -43,7 +43,7 @@ async function getAllItems(listId) {
 async function createNewList(newList) {
   try {
     const result = await db.collection("listsCollection").insertOne(newList);
-    return "Success in creating a new list";
+    return { success: true, statusCode: 201 };
   } catch (error) {
     console.log("Error in creating a new list", error);
     throw error;
@@ -69,7 +69,6 @@ async function deleteList(listId) {
     if (result.deletedCount === 1) {
       return { success: true, statusCode: 204 };
     }
-    return "Could not find list";
   } catch (error) {
     console.log("Error in deleting a list", error);
     throw error;
@@ -85,7 +84,6 @@ async function deleteItemsInList(listId) {
     if (result) {
       return { success: true, statusCode: 204 };
     }
-    return "Could not find items";
   } catch (error) {
     console.log("Error in deleting items", error);
     throw error;

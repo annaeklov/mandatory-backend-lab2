@@ -39,7 +39,7 @@ export default function Item({ items, lists, updateLists, listId, listName }) {
 
   function editItem(itemId) {
     axios
-      .put("/items/" + itemId, {
+      .put("/edititems/" + itemId, {
         title: itemTitle,
         description: itemDescription,
       })
