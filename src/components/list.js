@@ -4,7 +4,7 @@ import axios from "axios";
 import Item from "./item.js";
 import Modal from "./modal.js";
 
-export default function List({ lists, list, updateLists }) {
+export default function List({ lists, list, updateLists, index }) {
   const [items, setItems] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -84,10 +84,25 @@ export default function List({ lists, list, updateLists }) {
       });
     showModalFunction(false);
   }
+  function randomBGColor() {
+    let color = [
+      "#FF9AA2",
+      "#FFB2B2",
+      "#FFDAC1",
+      "#E2F0CB",
+      "#B5EAD7",
+      "#FF9AA2",
+      "#FFB2B2",
+      "#FFDAC1",
+      "#E2F0CB",
+      "#B5EAD7",
+    ];
+    return { backgroundColor: color[index] };
+  }
 
   return (
     <>
-      <div className="list__oneDiv">
+      <div className="list__oneDiv" style={randomBGColor()}>
         {showModal && (
           <Modal
             showModal={showModal}
@@ -109,19 +124,24 @@ export default function List({ lists, list, updateLists }) {
             showDeleteModal={showDeleteModal}
           />
         )}
-        <h2>{list.name}</h2>
-        <button
-          type="button"
-          className="btn btn-light"
-          onClick={() => {
-            showDeleteModalFunction(true);
-          }}
-        >
-          Delete {list.name}-list
-        </button>
+        <div className="list__header">
+          <h2>{list.name.toUpperCase()}</h2>
+          <i
+            className="far fa-window-close"
+            onClick={() => {
+              showDeleteModalFunction(true);
+            }}
+          ></i>
+        </div>
         {!items.length && <p>No items in this list..</p>}
 
-        <Item items={items} updateLists={updateLists} listId={list._id} listName={list.name} lists={lists}/>
+        <Item
+          items={items}
+          updateLists={updateLists}
+          listId={list._id}
+          listName={list.name}
+          lists={lists}
+        />
         <button
           type="button"
           className="btn btn-light"

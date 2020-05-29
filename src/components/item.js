@@ -38,6 +38,12 @@ export default function Item({ items, lists, updateLists, listId, listName }) {
   }
 
   function editItem(itemId) {
+
+    if (itemTitle.trim().length === 0 && itemDescription.trim().length === 0) {
+      setItemTitle("");
+      setItemDescription("");
+      return;
+    }
     axios
       .put("/edititems/" + itemId, {
         title: itemTitle,
@@ -55,7 +61,7 @@ export default function Item({ items, lists, updateLists, listId, listName }) {
 
   function moveItem(itemId) {
     console.log("LISTID i MOVEITEM->", listId);
-    console.log("NEWLISTID i MOVEITEM->",newListId);
+    console.log("NEWLISTID i MOVEITEM->", newListId);
 
     axios
       .put("/moveitems/" + itemId, { listId: newListId })
@@ -83,48 +89,42 @@ export default function Item({ items, lists, updateLists, listId, listName }) {
 
   const mappedItems = items.map((item) => {
     return (
-      <div className="card border-dark mb-3" key={item._id}>
-        <div className="card-header">
-          <strong>{item.title}</strong>
-        </div>
+      <div className="card mb-3" key={item._id}>
         <div className="card-body text-dark">
-          <p className="card-text">Description: {item.description}</p>
+          <strong>{item.title}</strong>
+          <p className="card-text"> {item.description}</p>
         </div>
+        <div className="card-footer bg-transparent">
+          <p className="date__p">Created: {item.date}</p>
 
-        <div className="card-footer bg-transparent border-dark">
-          <button
-            type="button"
-            className="btn btn-light item-btn"
+          <i
+            className="fas fa-trash-alt"
+            title="Delete item"
             onClick={() => {
               setShowDeleteModal(true);
               setItemId(item._id);
             }}
-          >
-            Delete item
-          </button>
-          <button
-            type="button"
-            className="btn btn-light item-btn"
+          ></i>
+
+          <i
+            className="fas fa-edit"
+            title="Edit item"
             onClick={() => {
               setShowModalEdit(true);
               setItemId(item._id);
               setItemTitle(item.title);
               setItemDescription(item.description);
             }}
-          >
-            Edit item
-          </button>
-          <button
-            type="button"
-            className="btn btn-light item-btn"
+          ></i>
+
+          <i
+            className="fas fa-arrows-alt"
+            title="Move item"
             onClick={() => {
               setShowModalMove(true);
               setItemId(item._id);
             }}
-          >
-            Move item
-          </button>
-          <p>Created: {item.date}</p>
+          ></i>
         </div>
       </div>
     );

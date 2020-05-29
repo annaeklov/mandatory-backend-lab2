@@ -8,6 +8,7 @@ export default function Board({ overlay }) {
   const [lists, setLists] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [title, setTitle] = useState("");
+  const [maxList, setMaxList] = useState(false);
 
   useEffect(() => {
     updateLists();
@@ -27,7 +28,6 @@ export default function Board({ overlay }) {
 
   function showModalFunction(statement) {
     setShowModal(statement);
-    
   }
 
   function onChangeTitle(e) {
@@ -36,6 +36,16 @@ export default function Board({ overlay }) {
 
   function addNewList(e) {
     e.preventDefault();
+    if (lists.length >= 10) {
+      setMaxList("Max 10 lists.. Delete lists to add more");
+      return;
+    }
+
+    if (title.trim().length === 0) {
+      setTitle("");
+      return;
+    }
+    
 
     axios
       .post("/lists", { data: title })
@@ -59,6 +69,7 @@ export default function Board({ overlay }) {
           modalTitle={"Add list"}
           onChangeTitle={onChangeTitle}
           title={title}
+          errorMsg={maxList}
         />
       )}
 

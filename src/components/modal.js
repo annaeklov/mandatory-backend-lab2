@@ -18,6 +18,7 @@ export default function Modal({
   lists,
   listName,
   onChangeMoveItem,
+  errorMsg,
 }) {
   return (
     <>
@@ -81,6 +82,7 @@ export default function Modal({
                     onChange={onChangeTitle}
                     value={showModalEdit ? itemTitle : title}
                   />
+                  {/* {errorMsg.length && <p>{errorMsg}</p>} */}
 
                   {showDescription && (
                     <>
@@ -91,7 +93,7 @@ export default function Modal({
                         name="description"
                         required
                         minLength="1"
-                        maxLength="20"
+                        maxLength="100"
                         onChange={onChangeDescription}
                         value={description}
                       />
