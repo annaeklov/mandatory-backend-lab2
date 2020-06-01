@@ -8,7 +8,6 @@ export default function Board({ overlay }) {
   const [lists, setLists] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [title, setTitle] = useState("");
-  const [maxList, setMaxList] = useState(false);
 
   useEffect(() => {
     updateLists();
@@ -18,7 +17,6 @@ export default function Board({ overlay }) {
     axios
       .get("/lists")
       .then((res) => {
-        console.log("UPDATE LISTS ->", res.data);
         setLists(res.data);
       })
       .catch((err) => {
@@ -28,6 +26,7 @@ export default function Board({ overlay }) {
 
   function showModalFunction(statement) {
     setShowModal(statement);
+    setTitle("");
   }
 
   function onChangeTitle(e) {
@@ -36,17 +35,12 @@ export default function Board({ overlay }) {
 
   function addNewList(e) {
     e.preventDefault();
-    if (lists.length >= 10) {
-      setMaxList("Max 10 lists.. Delete lists to add more");
-      return;
-    }
 
     if (title.trim().length === 0) {
       setTitle("");
       return;
     }
     
-
     axios
       .post("/lists", { data: title })
       .then((res) => {
@@ -69,19 +63,18 @@ export default function Board({ overlay }) {
           modalTitle={"Add list"}
           onChangeTitle={onChangeTitle}
           title={title}
-          errorMsg={maxList}
         />
       )}
 
       <div className="board__header">
         <button
           type="button"
-          className="btn btn-light"
+          className="btn btn-outline-dark btn-add-list"
           onClick={() => {
             showModalFunction(true);
           }}
         >
-          Add new list
+          Add list
         </button>
       </div>
       <div className="board__listDivs">

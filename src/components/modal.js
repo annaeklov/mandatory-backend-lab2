@@ -18,7 +18,6 @@ export default function Modal({
   lists,
   listName,
   onChangeMoveItem,
-  errorMsg,
 }) {
   return (
     <>
@@ -82,7 +81,7 @@ export default function Modal({
                     onChange={onChangeTitle}
                     value={showModalEdit ? itemTitle : title}
                   />
-                  {/* {errorMsg.length && <p>{errorMsg}</p>} */}
+                 
 
                   {showDescription && (
                     <>

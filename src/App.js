@@ -9,7 +9,10 @@ export default function App() {
     <div className="container app">
       <Header />
       <Board />
-      <footer></footer>
+      <footer>
+        <br />
+        <p style={{ color: "grey" }}>Created by Anna Eklöv 2020</p>
+      </footer>
     </div>
   );
 }

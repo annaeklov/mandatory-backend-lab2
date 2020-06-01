@@ -27,7 +27,6 @@ export default function Item({ items, lists, updateLists, listId, listName }) {
     axios
       .delete("/items/" + itemId)
       .then((res) => {
-        console.log("DELETE ITEM, ", res);
         updateLists();
         setItemId("");
       })
@@ -60,9 +59,6 @@ export default function Item({ items, lists, updateLists, listId, listName }) {
   }
 
   function moveItem(itemId) {
-    console.log("LISTID i MOVEITEM->", listId);
-    console.log("NEWLISTID i MOVEITEM->", newListId);
-
     axios
       .put("/moveitems/" + itemId, { listId: newListId })
       .then((res) => {
@@ -76,7 +72,6 @@ export default function Item({ items, lists, updateLists, listId, listName }) {
   }
 
   function onChangeMoveItem(e) {
-    console.log(e.target.value);
     setNewListId(e.target.value);
   }
 

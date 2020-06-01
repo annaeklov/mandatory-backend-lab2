@@ -128,7 +128,6 @@ async function editItem(itemId, editItem) {
 }
 
 async function moveItem(itemId, newListId) {
-  console.log("NEWLISTID I DB->", newListId);
   try {
     const result = await db.collection("itemsCollection").updateOne(
       { _id: ObjectId(itemId) },

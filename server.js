@@ -10,7 +10,7 @@ const MONGO_DB = require("./db");
 app.use((req, res, next) => {
   let start = new Date();
   res.once('finish', () => {
-    console.log(req.method, req.path, res.statusCode, new Date() - start, 'ms');
+    console.log(req.method, req.path, res.statusCode, new Date() - start,'ms');
   });
   next();
 });
@@ -119,6 +119,4 @@ app.listen(8080, () => {
   console.log("Server started 8080");
 });
 
-/* ------- */
 
-//app.use(express.static("./build")); //för att starta server och frontend samtidigt. OBS! Kör npm run build först, sen starta nodemon

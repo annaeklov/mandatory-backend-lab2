@@ -21,7 +21,6 @@ export default function List({ lists, list, updateLists, index }) {
     axios
       .get("/items/" + list._id)
       .then((res) => {
-        console.log("UPDATE ITEMS ->", res.data);
         setItems(res.data);
       })
       .catch((err) => {
@@ -49,7 +48,6 @@ export default function List({ lists, list, updateLists, index }) {
     axios
       .delete("/lists/" + list._id)
       .then((res) => {
-        console.log("DELETE LIST, ", res);
         updateLists();
       })
       .catch((err) => {
@@ -74,7 +72,6 @@ export default function List({ lists, list, updateLists, index }) {
         listId: list._id,
       })
       .then((res) => {
-        console.log("post new item", res.data);
         updateItems();
         setTitle("");
         setDescription("");
@@ -144,12 +141,12 @@ export default function List({ lists, list, updateLists, index }) {
         />
         <button
           type="button"
-          className="btn btn-light"
+          className="btn btn-outline-dark btn-add-item"
           onClick={() => {
             showModalFunction(true);
           }}
         >
-          Add new item
+          Add item
         </button>
       </div>
     </>
