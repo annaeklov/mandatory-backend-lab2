@@ -6,6 +6,15 @@ app.use(express.json());
 // För att kunna använda funktioner i db.js
 const MONGO_DB = require("./db");
 
+// Middleware
+app.use((req, res, next) => {
+  let start = new Date();
+  res.once('finish', () => {
+    console.log(req.method, req.path, res.statusCode, new Date() - start, 'ms');
+  });
+  next();
+});
+
 /*-----------*/
 // Anropen
 

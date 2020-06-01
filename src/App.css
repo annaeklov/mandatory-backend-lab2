@@ -90,6 +90,7 @@ footer {
   margin: 5px;
   font-size: 18px;
   color: dimgrey;
+  opacity: 0.6;
 }
 
 .fas:hover {

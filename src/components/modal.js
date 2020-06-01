@@ -78,7 +78,7 @@ export default function Modal({
                     required
                     autoFocus
                     minLength="1"
-                    maxLength="20"
+                    maxLength="40"
                     onChange={onChangeTitle}
                     value={showModalEdit ? itemTitle : title}
                   />
