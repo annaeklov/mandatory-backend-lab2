@@ -50,7 +50,7 @@ export default function Modal({
                     required
                     autoFocus
                     minLength="1"
-                    maxLength="20"
+                    maxLength="40"
                     onChange={onChangeTitle}
                     value={itemTitle}
                   />
@@ -62,7 +62,7 @@ export default function Modal({
                     name="description"
                     required
                     minLength="1"
-                    maxLength="20"
+                    maxLength="100"
                     onChange={onChangeDescription}
                     value={itemDescription}
                   />

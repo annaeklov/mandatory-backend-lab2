@@ -1,12 +1,35 @@
 const express = require("express");
 const app = express();
 
-app.use(express.json());
+//app.use(express.json()); // den "enkla" vägen
+
+// Middleware för JSON.parse
+app.use((req, res, next) => {
+  if (req.is('json')) {
+    let data = '';
+
+    req.on('data', (chunk) => {
+      data += chunk.toString();
+    });
+
+    req.on('end', () => {
+      try {
+        data = JSON.parse(data);
+        req.body = data;
+        next();
+      } catch (e) {
+        res.status(400).end();
+      }
+    });
+  } else {
+    next();
+  }
+});
 
 // För att kunna använda funktioner i db.js
 const MONGO_DB = require("./db");
 
-// Middleware
+// Middleware log
 app.use((req, res, next) => {
   let start = new Date();
   res.once('finish', () => {
